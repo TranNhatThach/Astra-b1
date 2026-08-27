@@ -11,7 +11,7 @@ def test_source_registry():
     reg = get_default_registry()
     sources = reg.list_sources()
     assert len(sources) >= 3
-    assert reg.get("vietnamese_curated_v1") is not None
+    assert reg.get("vietnamese_curated_literature_web_v1") is not None
 
 
 def test_unicode_normalization_and_diacritics():

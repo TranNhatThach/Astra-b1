@@ -28,7 +28,7 @@ def test_training_gate_pass_with_real_pilot_assets():
     identity = ScientificIdentity(
         git_commit=git_commit,
         config_hash=cfg_hash,
-        dataset_version="astra-data-v0.1",
+        dataset_version="astra-pilot-v0.1",
         dataset_hash=ds_hash,
         tokenizer_version="astra-tok-v0.1",
         tokenizer_hash=tok_hash,
