@@ -1,0 +1,23 @@
+{
+  "exp_astra_100m_pilot_01": {
+    "experiment_id": "exp_astra_100m_pilot_01",
+    "description": "Astra-100M sanity pretraining pilot on 500M tokens",
+    "target_scale": "100m",
+    "config_name": "configs/astra_100m.yaml",
+    "git_commit": "40fe0e8547e73a28462a1a100a2d7b1e1cb8bd43",
+    "config_hash": "sha256_placeholder",
+    "dataset_version": "astra-data-v0.1",
+    "tokenizer_hash": "e10c0c7bdb3bb4b063f9cc46761c644974183b92821dc0a81db0abbc390260cf",
+    "random_seed": 42,
+    "hardware": {
+      "num_gpus": 1,
+      "gpu_type": "auto_detect",
+      "precision": "bfloat16"
+    },
+    "status": "initialized",
+    "created_at": "2026-08-27T11:26:55.206480",
+    "updated_at": "2026-08-27T11:26:55.206542",
+    "checkpoints": [],
+    "metrics": {}
+  }
+}
