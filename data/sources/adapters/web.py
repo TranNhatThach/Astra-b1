@@ -1,19 +1,21 @@
 """
-Astra Web / General English Adapter (FineWeb-Edu) (Phase 7C)
+Astra Web / General English Streaming Adapter (Phase 7C)
 """
 
 from typing import Dict, Any, Generator, Optional
+import os
 from .base import SourceAdapter, RawDocument
 
 
 class FineWebEduAdapter(SourceAdapter):
-    def __init__(self, version: str = "v1.0.0"):
+    def __init__(self, version: str = "v1.0.0", use_live_stream: bool = False):
         super().__init__(
             source_id="fineweb_edu_web_v1",
             version=version,
             category="web",
             language="en",
         )
+        self.use_live_stream = use_live_stream or (os.environ.get("ASTRA_LIVE_STREAM", "0") == "1")
         self._doc_templates = [
             "Modern large-scale neural network pretraining requires deep synchronization across tensor-parallel and pipeline-parallel execution ranks. High bandwidth interconnects reduce communication bubbles.",
             "The architecture of operating systems balances memory paging, interrupt service routines, virtual address translation, and process scheduling to achieve maximum CPU throughput.",
@@ -30,8 +32,37 @@ class FineWebEduAdapter(SourceAdapter):
         max_docs: Optional[int] = None,
         resume_pos: int = 0,
     ) -> Generator[RawDocument, None, None]:
-        pos = resume_pos
         emitted = 0
+        if self.use_live_stream:
+            try:
+                import datasets
+                ds = datasets.load_dataset("HuggingFaceFW/fineweb-edu", name="sample-10BT", split="train", streaming=True)
+                skipped = 0
+                for item in ds:
+                    if skipped < resume_pos:
+                        skipped += 1
+                        continue
+                    if max_docs is not None and emitted >= max_docs:
+                        break
+                    text = item.get("text", "").strip()
+                    if not text:
+                        continue
+                    rec_id = item.get("id") or f"fw_{resume_pos + emitted:08d}"
+                    yield RawDocument(
+                        source_id=self.source_id,
+                        source_version=self.version,
+                        source_record_id=str(rec_id),
+                        category=self.category,
+                        language=self.language,
+                        text=text,
+                    )
+                    emitted += 1
+                return
+            except Exception as e:
+                print(f"[WARN] Live stream failed: {e}. Falling back to internal engine.")
+
+        # Robust streaming engine
+        pos = resume_pos
         while True:
             if max_docs is not None and emitted >= max_docs:
                 break

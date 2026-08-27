@@ -1,19 +1,21 @@
 """
-Astra Dialogue Adapter (Synthetic Reasoning & Q&A) (Phase 7C)
+Astra Dialogue Streaming Adapter (Phase 7C)
 """
 
 from typing import Dict, Any, Generator, Optional
+import os
 from .base import SourceAdapter, RawDocument
 
 
 class SyntheticDialogueAdapter(SourceAdapter):
-    def __init__(self, version: str = "v1.0"):
+    def __init__(self, version: str = "v1.0", use_live_stream: bool = False):
         super().__init__(
             source_id="synthetic_reasoning_dialogue_v1",
             version=version,
             category="dialogue",
             language="en",
         )
+        self.use_live_stream = use_live_stream or (os.environ.get("ASTRA_LIVE_STREAM", "0") == "1")
         self._dialogue_templates = [
             ("User: How does the Gated DeltaNet achieve linear time complexity during pretraining?\n"
              "Assistant: Gated DeltaNet reformulates linear attention as an associative matrix state update S_t = D_t S_{t-1}(I - u_t k_t k_t^T) + u_t v_t k_t^T. By leveraging associative chunk scans in log depth, it computes sequences in O(T) complexity rather than O(T^2)."),
@@ -30,8 +32,38 @@ class SyntheticDialogueAdapter(SourceAdapter):
         max_docs: Optional[int] = None,
         resume_pos: int = 0,
     ) -> Generator[RawDocument, None, None]:
-        pos = resume_pos
         emitted = 0
+        if self.use_live_stream:
+            try:
+                import datasets
+                ds = datasets.load_dataset("HuggingFaceH4/ultrachat_200k", split="train_sft", streaming=True)
+                skipped = 0
+                for item in ds:
+                    if skipped < resume_pos:
+                        skipped += 1
+                        continue
+                    if max_docs is not None and emitted >= max_docs:
+                        break
+                    messages = item.get("messages", [])
+                    if messages:
+                        turns = [f"{m.get('role', 'User').capitalize()}: {m.get('content', '')}" for m in messages]
+                        text = "\n\n".join(turns)
+                    else:
+                        text = str(item.get("prompt", ""))
+                    yield RawDocument(
+                        source_id=self.source_id,
+                        source_version=self.version,
+                        source_record_id=f"ultrachat_{resume_pos + emitted:08d}",
+                        category=self.category,
+                        language=self.language,
+                        text=text,
+                    )
+                    emitted += 1
+                return
+            except Exception as e:
+                print(f"[WARN] Live stream failed: {e}. Falling back to internal engine.")
+
+        pos = resume_pos
         while True:
             if max_docs is not None and emitted >= max_docs:
                 break

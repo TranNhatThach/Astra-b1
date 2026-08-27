@@ -1,19 +1,21 @@
 """
-Astra Mathematics & LaTeX Adapter (OpenWebMath) (Phase 7C)
+Astra Mathematics & LaTeX Streaming Adapter (Phase 7C)
 """
 
 from typing import Dict, Any, Generator, Optional
+import os
 from .base import SourceAdapter, RawDocument
 
 
 class OpenWebMathAdapter(SourceAdapter):
-    def __init__(self, version: str = "v1.0"):
+    def __init__(self, version: str = "v1.0", use_live_stream: bool = False):
         super().__init__(
             source_id="openwebmath_curated_v1",
             version=version,
             category="math",
             language="en",
         )
+        self.use_live_stream = use_live_stream or (os.environ.get("ASTRA_LIVE_STREAM", "0") == "1")
         self._math_templates = [
             "Theorem (Spectral Theorem): Every symmetric matrix A in R^{n x n} has real eigenvalues and admits an orthonormal basis of eigenvectors such that A = Q Lambda Q^T where Q is orthogonal and Lambda is diagonal.",
             "Lemma (Cauchy-Schwarz Inequality): For all inner product spaces (V, <.,.>), |<u, v>|^2 <= <u, u> * <v, v>. Equality holds if and only if u and v are linearly dependent.",
@@ -27,8 +29,33 @@ class OpenWebMathAdapter(SourceAdapter):
         max_docs: Optional[int] = None,
         resume_pos: int = 0,
     ) -> Generator[RawDocument, None, None]:
-        pos = resume_pos
         emitted = 0
+        if self.use_live_stream:
+            try:
+                import datasets
+                ds = datasets.load_dataset("open-web-math/open-web-math", split="train", streaming=True)
+                skipped = 0
+                for item in ds:
+                    if skipped < resume_pos:
+                        skipped += 1
+                        continue
+                    if max_docs is not None and emitted >= max_docs:
+                        break
+                    text = item.get("text", "").strip()
+                    yield RawDocument(
+                        source_id=self.source_id,
+                        source_version=self.version,
+                        source_record_id=f"owm_{resume_pos + emitted:08d}",
+                        category=self.category,
+                        language=self.language,
+                        text=text,
+                    )
+                    emitted += 1
+                return
+            except Exception as e:
+                print(f"[WARN] Live stream failed: {e}. Falling back to internal engine.")
+
+        pos = resume_pos
         while True:
             if max_docs is not None and emitted >= max_docs:
                 break

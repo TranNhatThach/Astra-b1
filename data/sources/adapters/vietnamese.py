@@ -1,19 +1,21 @@
 """
-Astra Vietnamese Curated Literature & Web Adapter (Phase 7C)
+Astra Vietnamese Curated Literature & Web Streaming Adapter (Phase 7C)
 """
 
 from typing import Dict, Any, Generator, Optional
+import os
 from .base import SourceAdapter, RawDocument
 
 
 class VietnameseCuratedAdapter(SourceAdapter):
-    def __init__(self, version: str = "v1.1"):
+    def __init__(self, version: str = "v1.1", use_live_stream: bool = False):
         super().__init__(
             source_id="vietnamese_curated_literature_web_v1",
             version=version,
             category="vietnamese",
             language="vi",
         )
+        self.use_live_stream = use_live_stream or (os.environ.get("ASTRA_LIVE_STREAM", "0") == "1")
         self._vi_templates = [
             "Astra-1B là công trình nghiên cứu xây dựng mô hình ngôn ngữ lớn kiến trúc lai ghép Gated DeltaNet kết hợp Grouped-Query Attention đầu tiên tại Việt Nam, tối ưu hóa toàn diện cho ngữ nghĩa tiếng Việt.",
             "Tiếng Việt là ngôn ngữ đơn lập có thanh điệu phức tạp gồm sáu thanh: ngang, huyền, sắc, hỏi, ngã, nặng. Toàn bộ các nguyên âm có dấu như ă, â, đ, ê, ô, ơ, ư bắt buộc phải tuân thủ chuẩn Unicode NFC.",
@@ -28,8 +30,33 @@ class VietnameseCuratedAdapter(SourceAdapter):
         max_docs: Optional[int] = None,
         resume_pos: int = 0,
     ) -> Generator[RawDocument, None, None]:
-        pos = resume_pos
         emitted = 0
+        if self.use_live_stream:
+            try:
+                import datasets
+                ds = datasets.load_dataset("wikimedia/wikipedia", name="20231101.vi", split="train", streaming=True)
+                skipped = 0
+                for item in ds:
+                    if skipped < resume_pos:
+                        skipped += 1
+                        continue
+                    if max_docs is not None and emitted >= max_docs:
+                        break
+                    text = item.get("text", "").strip()
+                    yield RawDocument(
+                        source_id=self.source_id,
+                        source_version=self.version,
+                        source_record_id=f"wiki_vi_{resume_pos + emitted:08d}",
+                        category=self.category,
+                        language=self.language,
+                        text=text,
+                    )
+                    emitted += 1
+                return
+            except Exception as e:
+                print(f"[WARN] Live stream failed: {e}. Falling back to internal engine.")
+
+        pos = resume_pos
         while True:
             if max_docs is not None and emitted >= max_docs:
                 break

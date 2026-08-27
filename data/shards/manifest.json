@@ -1,9 +1,9 @@
 {
-  "dataset_version": "astra-pilot-100m-v0.1",
+  "dataset_version": "astra-research-v0.2",
   "tokenizer_hash": "514a02f5e8a4eb88b3113c22e022fb1969acddbbf9487f261f615b6e384dc5e8",
   "sequence_length": 4096,
-  "num_shards": 3,
-  "total_tokens": 100003840,
+  "num_shards": 1,
+  "total_tokens": 10002432,
   "dtype": "uint32",
   "sample_shape": [
     3,
@@ -12,21 +12,9 @@
   "shards": [
     {
       "shard_name": "shard-000000.bin",
-      "num_samples": 12207,
-      "num_tokens": 49999872,
-      "sha256": "ec06ed12ea42bd5c47972eefcd3efd8e216a11eb6adeeae2c447a338032978e0"
-    },
-    {
-      "shard_name": "shard-000001.bin",
-      "num_samples": 12207,
-      "num_tokens": 49999872,
-      "sha256": "5312f131d0773e0b19e8c77ac8aafbf55080cc4b3440e537c18a8d123234fdc0"
-    },
-    {
-      "shard_name": "shard-000002.bin",
-      "num_samples": 1,
-      "num_tokens": 4096,
-      "sha256": "3b3cca627dcf8dbbc6bc948b8740f01e10284d099a299f67ad4372ba698c5f3b"
+      "num_samples": 2442,
+      "num_tokens": 10002432,
+      "sha256": "df9c74af2ccd4fd9834372d50867944485f40d2fb1b21e11fc07bf1a053658c5"
     }
   ]
 }
