@@ -50,6 +50,7 @@ Thumbs.db
 *.npz
 checkpoints/
 data/raw/
-data/shards/
+data/shards/*.bin
+!data/shards/*.json
 logs/
 wandb/
