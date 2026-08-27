@@ -122,3 +122,15 @@ class AstraConfig:
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
+
+    def to_yaml(self, path: str | Path) -> None:
+        def _to_list(obj):
+            if isinstance(obj, dict):
+                return {k: _to_list(v) for k, v in obj.items()}
+            elif isinstance(obj, (list, tuple)):
+                return [_to_list(x) for x in obj]
+            return obj
+        clean_dict = _to_list(asdict(self))
+        with open(path, "w", encoding="utf-8") as f:
+            yaml.safe_dump(clean_dict, f, default_flow_style=False, sort_keys=False)
+
