@@ -1,0 +1,174 @@
+{
+  "dataset_id": "astra-pilot-100m-v0.1",
+  "dataset_version": "astra-pilot-100m-v0.1",
+  "status": "VALIDATED",
+  "dataset_hash": "384525edcc293942203fce8e0b78a7cf7aef563592f19b00525ba9ffd502d600",
+  "tokenizer_version": "astra-tok-v0.1",
+  "tokenizer_hash": "514a02f5e8a4eb88b3113c22e022fb1969acddbbf9487f261f615b6e384dc5e8",
+  "tokenizer_status": "FROZEN",
+  "total_shards": 3,
+  "total_tokens": 100003840,
+  "sequence_length": 4096,
+  "total_sequences": 24415,
+  "total_documents": 903223,
+  "shards": [
+    {
+      "shard_name": "shard-000000.bin",
+      "num_samples": 12207,
+      "num_tokens": 49999872,
+      "sha256": "ec06ed12ea42bd5c47972eefcd3efd8e216a11eb6adeeae2c447a338032978e0"
+    },
+    {
+      "shard_name": "shard-000001.bin",
+      "num_samples": 12207,
+      "num_tokens": 49999872,
+      "sha256": "5312f131d0773e0b19e8c77ac8aafbf55080cc4b3440e537c18a8d123234fdc0"
+    },
+    {
+      "shard_name": "shard-000002.bin",
+      "num_samples": 1,
+      "num_tokens": 4096,
+      "sha256": "3b3cca627dcf8dbbc6bc948b8740f01e10284d099a299f67ad4372ba698c5f3b"
+    }
+  ],
+  "mixture_accounting": {
+    "web": {
+      "target_pct": 45.0,
+      "actual_pct": 39.43,
+      "actual_tokens": 39430839,
+      "deviation_pp": -5.57
+    },
+    "educational": {
+      "target_pct": 15.0,
+      "actual_pct": 13.35,
+      "actual_tokens": 13353366,
+      "deviation_pp": -1.65
+    },
+    "code": {
+      "target_pct": 15.0,
+      "actual_pct": 20.22,
+      "actual_tokens": 20219175,
+      "deviation_pp": 5.22
+    },
+    "math": {
+      "target_pct": 10.0,
+      "actual_pct": 9.36,
+      "actual_tokens": 9361100,
+      "deviation_pp": -0.64
+    },
+    "vietnamese": {
+      "target_pct": 10.0,
+      "actual_pct": 9.15,
+      "actual_tokens": 9148651,
+      "deviation_pp": -0.85
+    },
+    "dialogue": {
+      "target_pct": 5.0,
+      "actual_pct": 8.49,
+      "actual_tokens": 8490733,
+      "deviation_pp": 3.49
+    }
+  },
+  "reconciliation": {
+    "stages": {
+      "raw_ingestion": {
+        "stage_name": "raw_ingestion",
+        "num_documents": 1320,
+        "num_tokens": 152820,
+        "num_characters": 0,
+        "rejected_count": 0,
+        "notes": ""
+      },
+      "cleaned_unique": {
+        "stage_name": "cleaned_unique",
+        "num_documents": 22,
+        "num_tokens": 2543,
+        "num_characters": 0,
+        "rejected_count": 0,
+        "notes": ""
+      },
+      "mixture_sampled": {
+        "stage_name": "mixture_sampled",
+        "num_documents": 903223,
+        "num_tokens": 100003864,
+        "num_characters": 0,
+        "rejected_count": 0,
+        "notes": ""
+      },
+      "packed_shards": {
+        "stage_name": "packed_shards",
+        "num_documents": 24415,
+        "num_tokens": 100003840,
+        "num_characters": 0,
+        "rejected_count": 0,
+        "notes": ""
+      }
+    },
+    "source_contributions": {
+      "fineweb_edu_web_v1": {
+        "raw_docs": 300,
+        "raw_tokens": 28860,
+        "final_docs": 5,
+        "final_tokens": 481,
+        "retention_rate": 0.0167
+      },
+      "openstax_scientific_corpus_v1": {
+        "raw_docs": 240,
+        "raw_tokens": 23400,
+        "final_docs": 4,
+        "final_tokens": 390,
+        "retention_rate": 0.0167
+      },
+      "the_stack_permissive_code_v1": {
+        "raw_docs": 240,
+        "raw_tokens": 35700,
+        "final_docs": 4,
+        "final_tokens": 591,
+        "retention_rate": 0.0166
+      },
+      "openwebmath_curated_v1": {
+        "raw_docs": 180,
+        "raw_tokens": 18480,
+        "final_docs": 3,
+        "final_tokens": 308,
+        "retention_rate": 0.0167
+      },
+      "vietnamese_curated_literature_web_v1": {
+        "raw_docs": 240,
+        "raw_tokens": 24060,
+        "final_docs": 4,
+        "final_tokens": 401,
+        "retention_rate": 0.0167
+      },
+      "synthetic_reasoning_dialogue_v1": {
+        "raw_docs": 120,
+        "raw_tokens": 22320,
+        "final_docs": 2,
+        "final_tokens": 372,
+        "retention_rate": 0.0167
+      }
+    },
+    "is_reconciled": false,
+    "discrepancies": [
+      "Anomaly: Stage 'mixture_sampled' has more docs (903223) than 'cleaned_unique' (22)"
+    ]
+  },
+  "excluded_sources": [
+    {
+      "source_id": "unlicensed_web_scrape_dump_01",
+      "name": "Unverified Scraped Web Archive",
+      "category": "web",
+      "provider": "Unknown Forum Dump",
+      "exclusion_reason": "LICENSE_UNKNOWN",
+      "notes": "No clear license, terms of service forbid automated scraping"
+    },
+    {
+      "source_id": "proprietary_math_books_02",
+      "name": "Commercial Textbook Scans",
+      "category": "math",
+      "provider": "Scanned PDF Library",
+      "exclusion_reason": "LICENSE_INCOMPATIBLE",
+      "notes": "Copyrighted proprietary material without explicit training license"
+    }
+  ]
+}

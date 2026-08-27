@@ -193,9 +193,11 @@ def test_gate_06_missing_git_commit(setup_governance_env):
     assert "LEGACY_UNVALIDATED_EXPERIMENT" in res.reasons
 
 
-def test_gate_07_dirty_git_repo(setup_governance_env):
+def test_gate_07_dirty_git_repo(setup_governance_env, monkeypatch):
     env = setup_governance_env
-    # Calling validate with allow_dirty_git=False when repo has modifications
+    # Mock dirty git state
+    monkeypatch.setattr("experiments.gate.get_git_dirty_state", lambda: True)
+
     res = TrainingGate.validate(
         experiment=env["record"],
         config_path=str(env["cfg_file"]),
@@ -203,7 +205,6 @@ def test_gate_07_dirty_git_repo(setup_governance_env):
         tokenizer_path=str(env["tok_file"]),
         allow_dirty_git=False,
     )
-    # The current local git is modified with new files
     assert not res.is_passed
     assert "DIRTY_GIT_REPOSITORY" in res.reasons
 

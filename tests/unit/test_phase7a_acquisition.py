@@ -275,10 +275,14 @@ def test_27_28_29_30_gate_dataset_acceptance_and_rejection():
     tok_hash = compute_tokenizer_hash(tok_path)
     cfg_hash = compute_config_hash(cfg_path)
 
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        m_data = json.load(f)
+    ds_version = m_data.get("dataset_version", "astra-pilot-100m-v0.1")
+
     ident = ScientificIdentity(
         git_commit="3" * 40,
         config_hash=cfg_hash,
-        dataset_version="astra-pilot-v0.1",
+        dataset_version=ds_version,
         dataset_hash=ds_hash,
         tokenizer_version="astra-tok-v0.1",
         tokenizer_hash=tok_hash,
@@ -309,7 +313,7 @@ def test_27_28_29_30_gate_dataset_acceptance_and_rejection():
     ident_bad_ds = ScientificIdentity(
         git_commit="3" * 40,
         config_hash=cfg_hash,
-        dataset_version="astra-pilot-v0.1",
+        dataset_version=ds_version,
         dataset_hash="0" * 64,  # bad hash
         tokenizer_version="astra-tok-v0.1",
         tokenizer_hash=tok_hash,
@@ -338,7 +342,7 @@ def test_27_28_29_30_gate_dataset_acceptance_and_rejection():
     ident_bad_tok = ScientificIdentity(
         git_commit="3" * 40,
         config_hash=cfg_hash,
-        dataset_version="astra-pilot-v0.1",
+        dataset_version=ds_version,
         dataset_hash=ds_hash,
         tokenizer_version="astra-tok-v0.1",
         tokenizer_hash="9" * 64,  # bad tokenizer hash

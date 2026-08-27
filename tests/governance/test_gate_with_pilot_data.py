@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from experiments.identity import (
     ScientificIdentity,
@@ -25,10 +26,14 @@ def test_training_gate_pass_with_real_pilot_assets():
     tok_hash = compute_tokenizer_hash(tok_file)
     git_commit = get_git_commit() or ("0" * 40)
 
+    with open(ds_manifest, "r", encoding="utf-8") as f:
+        m_data = json.load(f)
+    ds_version = m_data.get("dataset_version", "astra-pilot-100m-v0.1")
+
     identity = ScientificIdentity(
         git_commit=git_commit,
         config_hash=cfg_hash,
-        dataset_version="astra-pilot-v0.1",
+        dataset_version=ds_version,
         dataset_hash=ds_hash,
         tokenizer_version="astra-tok-v0.1",
         tokenizer_hash=tok_hash,
