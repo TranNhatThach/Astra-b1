@@ -1,0 +1,53 @@
+{
+  "vocab_size": 500,
+  "domains": {
+    "vietnamese": {
+      "num_words": 52,
+      "num_chars": 245,
+      "num_bytes": 319,
+      "num_tokens": 174,
+      "tokens_per_word": 3.346,
+      "bytes_per_token": 1.833,
+      "chars_per_token": 1.408,
+      "unk_count": 0,
+      "roundtrip_match": true
+    },
+    "english": {
+      "num_words": 22,
+      "num_chars": 163,
+      "num_bytes": 163,
+      "num_tokens": 111,
+      "tokens_per_word": 5.045,
+      "bytes_per_token": 1.468,
+      "chars_per_token": 1.468,
+      "unk_count": 0,
+      "roundtrip_match": true
+    },
+    "code": {
+      "num_words": 29,
+      "num_chars": 256,
+      "num_bytes": 256,
+      "num_tokens": 178,
+      "tokens_per_word": 6.138,
+      "bytes_per_token": 1.438,
+      "chars_per_token": 1.438,
+      "unk_count": 0,
+      "roundtrip_match": true
+    },
+    "math": {
+      "num_words": 25,
+      "num_chars": 179,
+      "num_bytes": 179,
+      "num_tokens": 141,
+      "tokens_per_word": 5.64,
+      "bytes_per_token": 1.27,
+      "chars_per_token": 1.27,
+      "unk_count": 0,
+      "roundtrip_match": true
+    }
+  },
+  "unicode_nfc_test": {
+    "passed": true,
+    "errors": []
+  }
+}

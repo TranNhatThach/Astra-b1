@@ -1,0 +1,138 @@
+{
+  "system": {
+    "timestamp": "2026-08-27T11:20:07.966384",
+    "git_commit": "7faaad2ee6c683a5f80ecab40f0e14635b3c25a4",
+    "python_version": "3.13.3",
+    "pytorch_version": "2.6.0+cu124",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  },
+  "state_footprint": {
+    "num_heads": 16,
+    "head_dim": 96,
+    "num_gdn_layers": 18,
+    "elements_per_layer": 147456,
+    "total_elements_per_sample": 2654208,
+    "batch_breakdown": [
+      {
+        "batch_size": 1,
+        "fp32_mb": 10.125,
+        "bf16_mb": 5.0625,
+        "allocated_bf16_mb": 5.0625,
+        "bf16_per_sample_mb": 5.0625
+      },
+      {
+        "batch_size": 4,
+        "fp32_mb": 40.5,
+        "bf16_mb": 20.25,
+        "allocated_bf16_mb": 20.25,
+        "bf16_per_sample_mb": 5.0625
+      },
+      {
+        "batch_size": 16,
+        "fp32_mb": 162.0,
+        "bf16_mb": 81.0,
+        "allocated_bf16_mb": 81.0,
+        "bf16_per_sample_mb": 5.0625
+      },
+      {
+        "batch_size": 64,
+        "fp32_mb": 648.0,
+        "bf16_mb": 324.0,
+        "allocated_bf16_mb": 324.0,
+        "bf16_per_sample_mb": 5.0625
+      },
+      {
+        "batch_size": 256,
+        "fp32_mb": 2592.0,
+        "bf16_mb": 1296.0,
+        "allocated_bf16_mb": 1296.0,
+        "bf16_per_sample_mb": 5.0625
+      }
+    ]
+  },
+  "gdn_microbenchmark": [
+    {
+      "batch_size": 1,
+      "seq_len": 128,
+      "mode": "full",
+      "dtype": "float32",
+      "latency_ms": 81.99953206380208,
+      "tokens_per_sec": 1560.984517575124,
+      "peak_memory_mb": 17.4423828125
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 128,
+      "mode": "chunk-128",
+      "dtype": "float32",
+      "latency_ms": 78.55555216471355,
+      "tokens_per_sec": 1629.420155199373,
+      "peak_memory_mb": 17.4423828125
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "mode": "full",
+      "dtype": "float32",
+      "latency_ms": 292.27211507161456,
+      "tokens_per_sec": 1751.7921607901123,
+      "peak_memory_mb": 27.1923828125
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "mode": "chunk-128",
+      "dtype": "float32",
+      "latency_ms": 293.6941324869792,
+      "tokens_per_sec": 1743.3102788415406,
+      "peak_memory_mb": 19.0673828125
+    },
+    {
+      "batch_size": 2,
+      "seq_len": 128,
+      "mode": "full",
+      "dtype": "float32",
+      "latency_ms": 77.7332051595052,
+      "tokens_per_sec": 3293.315893442178,
+      "peak_memory_mb": 20.7099609375
+    },
+    {
+      "batch_size": 2,
+      "seq_len": 128,
+      "mode": "chunk-128",
+      "dtype": "float32",
+      "latency_ms": 76.32998148600261,
+      "tokens_per_sec": 3353.8590605703907,
+      "peak_memory_mb": 20.7099609375
+    },
+    {
+      "batch_size": 2,
+      "seq_len": 512,
+      "mode": "full",
+      "dtype": "float32",
+      "latency_ms": 315.25341796875,
+      "tokens_per_sec": 3248.1804847600592,
+      "peak_memory_mb": 40.2099609375
+    },
+    {
+      "batch_size": 2,
+      "seq_len": 512,
+      "mode": "chunk-128",
+      "dtype": "float32",
+      "latency_ms": 317.90114339192706,
+      "tokens_per_sec": 3221.127137430749,
+      "peak_memory_mb": 23.9599609375
+    }
+  ],
+  "model_benchmark": {
+    "model_name": "astra-bench",
+    "num_layers": 4,
+    "hidden_size": 512,
+    "batch_size": 1,
+    "seq_len": 256,
+    "latency_ms": 447.4378255208333,
+    "tokens_per_sec": 572.1465316482955,
+    "peak_memory_mb": 66.92529296875
+  }
+}

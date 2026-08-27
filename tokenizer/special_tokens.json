@@ -1,0 +1,17 @@
+{
+  "unk_token": "<unk>",
+  "bos_token": "<bos>",
+  "eos_token": "<eos>",
+  "pad_token": "<pad>",
+  "additional_special_tokens": [
+    "<|im_start|>",
+    "<|im_end|>",
+    "<tool_call>",
+    "</tool_call>",
+    "<tool_result>",
+    "</tool_result>",
+    "<fim_prefix>",
+    "<fim_middle>",
+    "<fim_suffix>"
+  ]
+}

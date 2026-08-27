@@ -1,0 +1,6 @@
+{
+  "vocab_size": 500,
+  "tokenizer_hash": "e10c0c7bdb3bb4b063f9cc46761c644974183b92821dc0a81db0abbc390260cf",
+  "normalization": "NFC",
+  "byte_fallback": true
+}
