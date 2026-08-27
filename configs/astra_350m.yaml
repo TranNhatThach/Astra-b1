@@ -1,0 +1,47 @@
+model:
+  name: "astra-350m"
+  vocab_size: 65536
+  hidden_size: 1280
+  intermediate_size: 2560
+  num_layers: 18
+  layer_pattern:
+    - "gdn"
+    - "gdn"
+    - "gdn"
+    - "attention"
+  norm_eps: 1.0e-6
+  tie_word_embeddings: true
+  max_position_embeddings: 4096
+
+gdn:
+  num_heads: 10
+  head_dim: 96
+  conv_kernel: 4
+  key_norm_eps: 1.0e-6
+  retention_bias_init: 3.0
+  update_bias_init: -0.5
+  output_bias_init: 2.0
+  gated: true
+
+attention:
+  num_q_heads: 10
+  num_kv_heads: 2
+  head_dim: 128
+  rope_theta: 1000000.0
+  gated: true
+  gate_bias_init: 2.0
+
+mtp:
+  enabled: true
+  horizon: 2
+  loss_weight: 0.2
+
+training:
+  dtype: "bfloat16"
+  peak_lr: 4.5e-4
+  min_lr: 4.5e-5
+  warmup_ratio: 0.02
+  weight_decay: 0.1
+  max_grad_norm: 1.0
+  context_stages:
+    - 4096
