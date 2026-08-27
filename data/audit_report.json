@@ -1,0 +1,32 @@
+{
+  "dataset_version": "astra-data-v0.1",
+  "dataset_hash": "64fd99a6d660059b4eae1ed2a5952226c8e2024e559b2859ec8bffbb620917e8",
+  "tokenizer_hash": "514a02f5e8a4eb88b3113c22e022fb1969acddbbf9487f261f615b6e384dc5e8",
+  "num_shards": 1,
+  "total_tokens": 12288,
+  "sequence_length": 4096,
+  "filtering_statistics": {
+    "raw_documents": 880,
+    "kept_documents": 22,
+    "rejected_pii": 0,
+    "rejected_safety": 0,
+    "rejected_quality": 0,
+    "rejected_duplicate": 858,
+    "domain_counts": {
+      "web": 5,
+      "educational": 4,
+      "code": 4,
+      "math": 3,
+      "vietnamese": 4,
+      "dialogue": 2
+    }
+  },
+  "mixture_policy": {
+    "web": 0.45,
+    "educational": 0.15,
+    "code": 0.15,
+    "math": 0.1,
+    "vietnamese": 0.1,
+    "dialogue": 0.05
+  }
+}

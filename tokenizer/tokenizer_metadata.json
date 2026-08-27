@@ -1,6 +1,27 @@
 {
+  "status": "FROZEN",
+  "version": "astra-tok-v0.1",
   "vocab_size": 500,
-  "tokenizer_hash": "e10c0c7bdb3bb4b063f9cc46761c644974183b92821dc0a81db0abbc390260cf",
+  "tokenizer_hash": "514a02f5e8a4eb88b3113c22e022fb1969acddbbf9487f261f615b6e384dc5e8",
   "normalization": "NFC",
-  "byte_fallback": true
+  "byte_fallback": true,
+  "frozen_at": "2026-08-27T21:43:17.373227",
+  "evaluation_summary": {
+    "vietnamese": {
+      "tokens_per_word": 3.346,
+      "bytes_per_token": 1.833
+    },
+    "english": {
+      "tokens_per_word": 5.045,
+      "bytes_per_token": 1.468
+    },
+    "code": {
+      "tokens_per_word": 6.138,
+      "bytes_per_token": 1.438
+    },
+    "math": {
+      "tokens_per_word": 5.64,
+      "bytes_per_token": 1.27
+    }
+  }
 }
